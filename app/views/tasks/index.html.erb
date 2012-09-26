@@ -1,0 +1,32 @@
+<div class="page-header">
+  <h1>Tasks</h1>
+</div>
+<table class="table table-striped">
+  <tr>
+    <th>Tipo</th>
+    <th>Nombre</th>
+    <th>Descripcion</th>
+    <th>Estado</th>
+    <th>Creado</th> 
+    <th>Acciones<th>
+  </tr>
+<% @tasks.each do |task| %>
+  <tr>
+    <td><%= task.tipo %></td>
+    <td><%= task.nombre %></td>
+    <td><%= truncate(task.descripcion, length: 80) %></td>
+    <% if task.estado == true %>
+    <td class="cambiar_verde"><%= task.estado ? "Completo" : "Incompleto" %></td>
+    <% else %>
+    <td class="cambiar_rojo"><%= task.estado ? "Completo" : "Incompleto" %></td>
+    <% end %>
+    <td><%= task.created_at.strftime("%D:%M %d/%m/%y") %></td>    
+    <td><%= link_to 'Editar', edit_task_path(task), class: "btn btn-mini" %>
+    <%= link_to 'Destroy', task, class: "btn btn-mini btn-danger",method: :delete, data: { confirm: 'Estas seguro?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Task', new_task_path %>

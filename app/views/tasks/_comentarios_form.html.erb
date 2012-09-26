@@ -1,0 +1,6 @@
+<%= form_for([@task, @task.comentarios.build]) do |f| %>
+<div class="field">
+	<%= f.text_area :cuerpo, placeholder: "Escrive un comentario.", class: "textarea"%>
+</div>
+<%= f.submit "Enviar comentario!", class: "btn btn-large btn-primary" %>
+<% end %>

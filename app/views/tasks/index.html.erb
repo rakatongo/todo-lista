@@ -13,7 +13,7 @@
 <% @tasks.each do |task| %>
   <tr>
     <td><%= task.tipo %></td>
-    <td><%= task.nombre %></td>
+    <td><%= link_to task.nombre, task_path(task) %></td>
     <td><%= truncate(task.descripcion, length: 80) %></td>
     <% if task.estado == true %>
     <td class="cambiar_verde"><%= task.estado ? "Completo" : "Incompleto" %></td>
@@ -28,5 +28,6 @@
 </table>
 
 <br />
-
-<%= link_to 'New Task', new_task_path %>
+<div class="rakun">
+  <%= link_to 'Nueva Task', new_task_path, class: "btn btn-large btn-primary" %>
+</div>

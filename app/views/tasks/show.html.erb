@@ -1,25 +1,52 @@
-<p id="notice"><%= notice %></p>
+<%- model_class = Task -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+</div>
 
-<p>
-  <b>Tipo:</b>
-  <%= @task.tipo %>
-</p>
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:tipo) %>:</strong></dt>
+  <dd><%= @task.tipo %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:nombre) %>:</strong></dt>
+  <dd><%= @task.nombre %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:descripcion) %>:</strong></dt>
+  <dd><%= @task.descripcion %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:estado) %>:</strong></dt>
+  <dd><%= @task.estado ? "Completo" : "Incompleto" %></dd>
+  <dt><strong><%= model_class.human_attribute_name("Creado:")%></strong></dt>
+  <dd><%= @task.created_at.strftime("Hora: %H:%M. Fecha %d-%m-%y")%></dd>
+  <% if @task.comentarios.any? %>
+  <dt><strong><%= model_class.human_attribute_name("Ultimo update:")%></strong></dt>
+  <dd><%= @task.comentarios.last.created_at.strftime("Hora: %H:%M. Fecha %d-%m-%y")%></dd>
+  <% end %>
+</dl>
 
-<p>
-  <b>Nombre:</b>
-  <%= @task.nombre %>
-</p>
-
-<p>
-  <b>Descripcion:</b>
-  <%= @task.descripcion %>
-</p>
-
-<p>
-  <b>Estado:</b>
-  <%= @task.estado %>
-</p>
-
-
-<%= link_to 'Edit', edit_task_path(@task) %> |
-<%= link_to 'Back', tasks_path %>
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.Atras")),
+              tasks_path, :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.Editar")),
+              edit_task_path(@task), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.Borrar")),
+              task_path(@task),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Estas seguro?')) },
+              :class => 'btn btn-danger' %>
+</div>
+<% if @task.comentarios.any? %>
+<table class="table table-striped">
+  <tr>
+    <td>ID</td>
+    <td>Nota</td>
+    <td>Creado</td>
+  </tr>
+  <% @task.comentarios.each do |v| %>
+    <tr>
+      <td><%= v.id %></td>
+      <td><%= v.cuerpo %></td>
+      <td><%= v.created_at.strftime("%H:%M %d/%m/%y")%></td>
+    </tr>
+  <% end %>
+</table>
+<% end %>
+<div class="rakun">
+  <%= render 'comentarios_form' %>
+</div>
